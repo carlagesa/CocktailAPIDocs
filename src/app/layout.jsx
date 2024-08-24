@@ -7,8 +7,8 @@ import '@/styles/tailwind.css'
 
 export const metadata = {
   title: {
-    template: '%s - Protocol API Reference',
-    default: 'Protocol API Reference',
+    template: '%s - Cocktail API API Reference',
+    default: 'Cocktail API API Reference',
   },
 }
 

@@ -12,10 +12,10 @@ import { UsersIcon } from '@/components/icons/UsersIcon'
 
 const resources = [
   {
-    href: '/contacts',
-    name: 'Contacts',
+    href: '/quickstart',
+    name: 'Quickstart Guide',
     description:
-      'Learn about the contact model and how to create, retrieve, update, delete, and list contacts.',
+      'Get started with the Cocktail API quickly by following our step-by-step guide.',
     icon: UserIcon,
     pattern: {
       y: 16,
@@ -26,10 +26,10 @@ const resources = [
     },
   },
   {
-    href: '/conversations',
-    name: 'Conversations',
+    href: 'https://documenter.getpostman.com/view/21460726/2sA3s3GW7A',
+    name: 'Postman Collection',
     description:
-      'Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.',
+      'Access the Postman collection for the Cocktail API to test and explore endpoints.',
     icon: ChatBubbleIcon,
     pattern: {
       y: -6,
@@ -40,10 +40,10 @@ const resources = [
     },
   },
   {
-    href: '/messages',
-    name: 'Messages',
+    href: 'https://example.com/api-dog',
+    name: 'API Dog Documentation',
     description:
-      'Learn about the message model and how to create, retrieve, update, delete, and list messages.',
+      'View the API Dog documentation for detailed information on using the Cocktail API.',
     icon: EnvelopeIcon,
     pattern: {
       y: 32,
@@ -54,10 +54,10 @@ const resources = [
     },
   },
   {
-    href: '/groups',
-    name: 'Groups',
+    href: 'https://cocktail-api-five.vercel.app/swagger/',
+    name: 'Swagger UI',
     description:
-      'Learn about the group model and how to create, retrieve, update, delete, and list groups.',
+      'Explore the Swagger UI for interactive API documentation of the Cocktail API.',
     icon: UsersIcon,
     pattern: {
       y: 22,

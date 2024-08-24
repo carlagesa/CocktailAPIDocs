@@ -1,57 +1,57 @@
 export const metadata = {
   title: 'Errors',
   description:
-    'In this guide, we will talk about what happens when something goes wrong while you work with the API.',
+    'In this guide, we will discuss how to handle errors and what to do when something goes wrong while using the Cocktail API.',
 }
 
 # Errors
 
-In this guide, we will talk about what happens when something goes wrong while you work with the API. Mistakes happen, and mostly they will be yours, not ours. Let's look at some status codes and error types you might encounter. {{ className: 'lead' }}
+In this guide, we will discuss how to handle errors and what to do when something goes wrong while using the Cocktail API. Mistakes can happen, and often they are due to issues on the client side rather than the API itself. Let's review some common status codes and error types you might encounter. {{ className: 'lead' }}
 
-You can tell if your request was successful by checking the status code when receiving an API response. If a response comes back unsuccessful, you can use the error type and error message to figure out what has gone wrong and do some rudimentary debugging (before contacting support).
+You can determine if your request was successful by checking the status code in the API response. If the response indicates an error, you can use the error type and message to understand what went wrong and perform basic troubleshooting before reaching out for support.
 
 <Note>
-  Before reaching out to support with an error, please be aware that 99% of all
-  reported errors are, in fact, user errors. Therefore, please carefully check
-  your code before contacting Protocol support.
+  Before contacting support with an error, please remember that most reported errors are typically due to issues on the client side. Carefully review your request and code before seeking assistance.
 </Note>
 
 ---
 
-## Status codes
+## Status Codes
 
-Here is a list of the different categories of status codes returned by the Protocol API. Use these to understand if a request was successful.
+Here is a list of the different categories of status codes returned by the Cocktail API. Use these codes to understand if a request was successful or if there was an issue.
 
 <Properties>
   <Property name="2xx">
-    A 2xx status code indicates a successful response.
+    A 2xx status code indicates a successful response. For example, a `200 OK` means your request was successful, and the data you requested is included in the response.
   </Property>
   <Property name="4xx">
-    A 4xx status code indicates a client error — this means it's a _you_
-    problem.
+    A 4xx status code indicates a client error — this means there is an issue with your request. Common examples include:
+    - `400 Bad Request`: The request could not be understood or was missing required parameters.
+    - `401 Unauthorized`: Lookup Endpoints credentials are missing or invalid.
+    - `404 Not Found`: The requested resource could not be found.
   </Property>
   <Property name="5xx">
-    A 5xx status code indicates a server error — you won't be seeing these.
+    A 5xx status code indicates a server error — these are issues on the API server side, and typically you will not see these unless there is a problem with the API itself.
   </Property>
 </Properties>
 
 ---
 
-## Error types
+## Error Types
 
 <Row>
   <Col>
 
-    Whenever a request is unsuccessful, the Protocol API will return an error response with an error type and message. You can use this information to understand better what has gone wrong and how to fix it. Most of the error messages are pretty helpful and actionable.
+    Whenever a request is unsuccessful, the Cocktail API will return an error response with an error type and message. You can use this information to understand better what has gone wrong and how to fix it. Most error messages are designed to be helpful and actionable.
 
-    Here is a list of the two error types supported by the Protocol API — use these to understand what you have done wrong.
+    Here is a list of the two error types supported by the Cocktail API — use these to understand what you might have done wrong.
 
     <Properties>
       <Property name="api_error">
-        This means that we made an error, which is highly speculative and unlikely.
+        This indicates a problem on the API side, though such errors are rare. They suggest that something went wrong on the server that is out of your control.
       </Property>
       <Property name="invalid_request">
-        This means that you made an error, which is much more likely.
+        This indicates an issue with your request, such as missing or invalid parameters. This is the more common error type and usually requires you to adjust your request.
       </Property>
     </Properties>
 
@@ -61,8 +61,8 @@ Here is a list of the different categories of status codes returned by the Proto
     ```bash {{ title: "Error response" }}
     {
       "type": "api_error",
-      "message": "No way this is happening!?",
-      "documentation_url": "https://protocol.chat/docs/errors/api_error"
+      "message": "An unexpected error occurred. Please try again later.",
+      "documentation_url": "https://your-api-docs-url/errors/api_error"
     }
     ```
 

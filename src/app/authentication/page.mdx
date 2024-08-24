@@ -1,39 +1,69 @@
 export const metadata = {
-  title: 'Authentication',
+  title: 'Lookup Endpoints',
   description:
-    'In this guide, we’ll look at how authentication works. Protocol offers two ways to authenticate your API requests: Basic authentication and OAuth2 with a token.',
+    'In this guide, we’ll look at how authentication works. Cocktail API offers two ways to authenticate your API requests: Basic authentication and OAuth2 with a token.',
 }
 
-# Authentication
+# Lookup Endpoints
+The Cocktail API uses token-based authentication. You'll need to authenticate your requests to access any of the endpoints in the Cocktail API API. 
+In this guide, we'll look at how authentication works. To authenticate your requests, include your token in the Authorization header of your HTTP requests as follows:
+ Cocktail API offers two ways to authenticate your API requests: 
 
-You'll need to authenticate your requests to access any of the endpoints in the Protocol API. In this guide, we'll look at how authentication works. Protocol offers two ways to authenticate your API requests: Basic authentication and OAuth2 with a token — OAuth2 is the recommended way. {{ className: 'lead' }}
+## Token authentication
 
-## Basic authentication
+### Obtain a Token
+Before making authenticated requests, you need to obtain a token. Typically, this involves logging in with your credentials and receiving a token in the response. For example, you might have an endpoint for obtaining tokens:
 
-With basic authentication, you use your username and password to authenticate your HTTP requests. Unless you have a very good reason, you probably shouldn't use basic auth. Here's how to authenticate using cURL:
+Endpoint: /api/token/ <br />
+Method: POST <br />
+Request Body <br />
 
-```bash {{ title: 'Example request with basic auth' }}
-curl https://api.protocol.chat/v1/conversations \
-  -u username:password
+```bash {{ title: 'Example request with token auth' }}
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+
 ```
+### Response:
+```bash {{ title: 'Example request with token auth' }}
+{
+  "token": "your_jwt_or_auth_token_here"
+}
 
-Please don't commit your Protocol password to GitHub!
 
-## OAuth2 with bearer token
+```
+Please don't commit your Cocktail password to GitHub!
 
-The recommended way to authenticate with the Protocol API is by using OAuth2. When establishing a connection using OAuth2, you will need your access token — you will find it in the [Protocol dashboard](#) under API settings. Here's how to add the token to the request header using cURL:
+## OAuth2 with bearer token 
 
-```bash {{ title: 'Example request with bearer token' }}
-curl https://api.protocol.chat/v1/conversations \
-  -H "Authorization: Bearer {token}"
+The recommended way to authenticate with the Cocktail API API is by using OAuth2. When establishing a connection using OAuth2, you will need your access token — you will find it in the [Cocktail API dashboard](#) under API settings. Here's how to add the token to the request header using cURL:
+
+Endpoint: /api/token/ <br />
+Method: POST <br />
+Request Body <br />
+
+```bash {{ title: 'Example request with token auth' }}
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+
+```
+### Response:
+```bash {{ title: 'Example request with token auth' }}
+{
+  "token": "your_jwt_or_auth_token_here"
+}
+
+
 ```
 
 Always keep your token safe and reset it if you suspect it has been compromised.
 
 ## Using an SDK
 
-If you use one of our official SDKs, you won't have to worry about any of the above — fetch your access token from the [Protocol dashboard](#) under API settings, and the client library will take care of the rest. All the client libraries use OAuth2 behind the scenes.
-
+SDK support will be comming soon
 <div className="not-prose">
   <Button href="/sdks" variant="text" arrow="right">
     <>Check out our list of first-party SDKs</>

@@ -1,74 +1,27 @@
 export const metadata = {
-  title: 'Contacts',
-  description:
-    'On this page, we’ll dive into the different contact endpoints you can use to manage contacts programmatically.',
+  title: 'Cocktail Endpoints',
+  description: 'Explore the various endpoints available for managing and searching cocktails.',
 }
 
-# Contacts
+# Cocktails
 
-As the name suggests, contacts are a core part of Protocol — the very reason Protocol exists is so you can have secure conversations with your contacts. On this page, we'll dive into the different contact endpoints you can use to manage contacts programmatically. We'll look at how to query, create, update, and delete contacts. {{ className: 'lead' }}
+Cocktail endpoints allow you to manage and search for cocktails. Here, you can retrieve, search, filter, and list cocktails based on different criteria.
 
-## The contact model
-
-The contact model contains all the information about your contacts, such as their username, avatar, and phone number. It also contains a reference to the conversation between you and the contact and information about when they were last active on Protocol.
-
-### Properties
-
-<Properties>
-  <Property name="id" type="string">
-    Unique identifier for the contact.
-  </Property>
-  <Property name="username" type="string">
-    The username for the contact.
-  </Property>
-  <Property name="phone_number" type="string">
-    The phone number for the contact.
-  </Property>
-  <Property name="avatar_url" type="string">
-    The avatar image URL for the contact.
-  </Property>
-  <Property name="display_name" type="string">
-    The contact display name in the contact list. By default, this is just the
-    username.
-  </Property>
-  <Property name="conversation_id" type="string">
-    Unique identifier for the conversation associated with the contact.
-  </Property>
-  <Property name="last_active_at" type="timestamp">
-    Timestamp of when the contact was last active on the platform.
-  </Property>
-  <Property name="created_at" type="timestamp">
-    Timestamp of when the contact was created.
-  </Property>
-</Properties>
-
----
-
-## List all contacts {{ tag: 'GET', label: '/v1/contacts' }}
+## List all cocktails {{ tag: 'GET', label: '/v1/cocktails-only' }}
 
 <Row>
   <Col>
 
-    This endpoint allows you to retrieve a paginated list of all your contacts. By default, a maximum of ten contacts are shown per page.
-
-    ### Optional attributes
-
-    <Properties>
-      <Property name="limit" type="integer">
-        Limit the number of contacts returned.
-      </Property>
-    </Properties>
+    This endpoint allows you to retrieve a list of all cocktails. 
 
   </Col>
   <Col sticky>
 
-    <CodeGroup title="Request" tag="GET" label="/v1/contacts">
+    <CodeGroup title="Request" tag="GET" label="/v1/cocktails-only">
 
     ```bash {{ title: 'cURL' }}
-    curl -G https://api.protocol.chat/v1/contacts \
-      -H "Authorization: Bearer {token}" \
-      -d active=true \
-      -d limit=10
+    curl -G https://api.protocol.chat/v1/cocktails-only \
+      -H "Authorization: Bearer {token}"
     ```
 
     ```js
@@ -76,7 +29,7 @@ The contact model contains all the information about your contacts, such as thei
 
     const client = new ApiClient(token)
 
-    await client.contacts.list()
+    await client.cocktails.list()
     ```
 
     ```python
@@ -84,35 +37,30 @@ The contact model contains all the information about your contacts, such as thei
 
     client = ApiClient(token)
 
-    client.contacts.list()
+    client.cocktails.list()
     ```
 
     ```php
     $client = new \Protocol\ApiClient($token);
 
-    $client->contacts->list();
+    $client->cocktails->list();
     ```
 
     </CodeGroup>
 
     ```json {{ title: 'Response' }}
     {
-      "has_more": false,
       "data": [
         {
-          "id": "WAz8eIbvDR60rouK",
-          "username": "FrankMcCallister",
-          "phone_number": "1-800-759-3000",
-          "avatar_url": "https://assets.protocol.chat/avatars/frank.jpg",
-          "display_name": null,
-          "conversation_id": "xgQQXg3hrtjh7AvZ",
-          "last_active_at": 705103200,
-          "created_at": 692233200
-        },
-        {
-          "id": "hSIhXBhNe8X1d8Et"
-          // ...
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
         }
+        // ...
       ]
     }
     ```
@@ -122,46 +70,22 @@ The contact model contains all the information about your contacts, such as thei
 
 ---
 
-## Create a contact {{ tag: 'POST', label: '/v1/contacts' }}
+## Search cocktails by name {{ tag: 'GET', label: '/v1/search/cocktail' }}
 
 <Row>
   <Col>
 
-    This endpoint allows you to add a new contact to your contact list in Protocol. To add a contact, you must provide their Protocol username and phone number.
-
-    ### Required attributes
-
-    <Properties>
-      <Property name="username" type="string">
-        The username for the contact.
-      </Property>
-      <Property name="phone_number" type="string">
-        The phone number for the contact.
-      </Property>
-    </Properties>
-
-    ### Optional attributes
-
-    <Properties>
-      <Property name="avatar_url" type="string">
-        The avatar image URL for the contact.
-      </Property>
-      <Property name="display_name" type="string">
-        The contact display name in the contact list. By default, this is just the username.
-      </Property>
-    </Properties>
+    This endpoint allows you to search for cocktails by name.
 
   </Col>
   <Col sticky>
 
-    <CodeGroup title="Request" tag="POST" label="/v1/contacts">
+    <CodeGroup title="Request" tag="GET" label="/v1/search/cocktail">
 
     ```bash {{ title: 'cURL' }}
-    curl https://api.protocol.chat/v1/contacts \
+    curl -G https://api.protocol.chat/v1/search/cocktail \
       -H "Authorization: Bearer {token}" \
-      -d username="FrankMcCallister" \
-      -d phone_number="1-800-759-3000" \
-      -d avatar_url="https://assets.protocol.chat/avatars/frank.jpg"
+      -d name="Mojito"
     ```
 
     ```js
@@ -169,11 +93,7 @@ The contact model contains all the information about your contacts, such as thei
 
     const client = new ApiClient(token)
 
-    await client.contacts.create({
-      username: 'FrankMcCallister',
-      phone_number: '1-800-759-3000',
-      avatar_url: 'https://assets.protocol.chat/avatars/frank.jpg',
-    })
+    await client.cocktails.searchByName('Mojito')
     ```
 
     ```python
@@ -181,35 +101,31 @@ The contact model contains all the information about your contacts, such as thei
 
     client = ApiClient(token)
 
-    client.contacts.create(
-      username="FrankMcCallister",
-      phone_number="1-800-759-3000",
-      avatar_url="https://assets.protocol.chat/avatars/frank.jpg",
-    )
+    client.cocktails.search_by_name(name="Mojito")
     ```
 
     ```php
     $client = new \Protocol\ApiClient($token);
 
-    $client->contacts->create([
-      'username' => 'FrankMcCallister',
-      'phone_number' => '1-800-759-3000',
-      'avatar_url' => 'https://assets.protocol.chat/avatars/frank.jpg',
-    ]);
+    $client->cocktails->search_by_name('Mojito');
     ```
 
     </CodeGroup>
 
     ```json {{ title: 'Response' }}
     {
-      "id": "WAz8eIbvDR60rouK",
-      "username": "FrankMcCallister",
-      "phone_number": "1-800-759-3000",
-      "avatar_url": "https://assets.protocol.chat/avatars/frank.jpg",
-      "display_name": null,
-      "conversation_id": "xgQQXg3hrtjh7AvZ",
-      "last_active_at": null,
-      "created_at": 692233200
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
     }
     ```
 
@@ -218,20 +134,401 @@ The contact model contains all the information about your contacts, such as thei
 
 ---
 
-## Retrieve a contact {{ tag: 'GET', label: '/v1/contacts/:id' }}
+## Search cocktails by first letter {{ tag: 'GET', label: '/v1/search/letter' }}
 
 <Row>
   <Col>
 
-    This endpoint allows you to retrieve a contact by providing their Protocol id. Refer to [the list](#the-contact-model) at the top of this page to see which properties are included with contact objects.
+    This endpoint allows you to list cocktails that start with a specific letter.
 
   </Col>
   <Col sticky>
 
-    <CodeGroup title="Request" tag="GET" label="/v1/contacts/WAz8eIbvDR60rouK">
+    <CodeGroup title="Request" tag="GET" label="/v1/search/letter">
 
     ```bash {{ title: 'cURL' }}
-    curl https://api.protocol.chat/v1/contacts/WAz8eIbvDR60rouK \
+    curl -G https://api.protocol.chat/v1/search/letter \
+      -H "Authorization: Bearer {token}" \
+      -d letter="M"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.cocktails.searchByFirstLetter('M')
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.cocktails.search_by_first_letter(letter="M")
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->cocktails->search_by_first_letter('M');
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Search ingredients by name {{ tag: 'GET', label: '/v1/search/ingredient' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to search for ingredients by name.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/search/ingredient">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/search/ingredient \
+      -H "Authorization: Bearer {token}" \
+      -d name="Mint"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.ingredients.searchByName('Mint')
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.ingredients.search_by_name(name="Mint")
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->ingredients->search_by_name('Mint');
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "ingredient_001",
+          "name": "Mint",
+          "description": "A refreshing herb.",
+          "image_url": "https://example.com/images/mint.jpg"
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Filter cocktails by ingredient {{ tag: 'GET', label: '/v1/filter/ingredient' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to filter cocktails by ingredient.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/filter/ingredient">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/filter/ingredient \
+      -H "Authorization: Bearer {token}" \
+      -d ingredient="Mint"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.cocktails.filterByIngredient('Mint')
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.cocktails.filter_by_ingredient(ingredient="Mint")
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->cocktails->filter_by_ingredient('Mint');
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Filter cocktails by alcoholic {{ tag: 'GET', label: '/v1/filter/alcoholic' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to filter cocktails based on whether they are alcoholic or non-alcoholic.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/filter/alcoholic">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/filter/alcoholic \
+      -H "Authorization: Bearer {token}" \
+      -d alcoholic=true
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.cocktails.filterByAlcoholic(true)
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.cocktails.filter_by_alcoholic(alcoholic=True)
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->cocktails->filter_by_alcoholic(true);
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Filter cocktails by category {{ tag: 'GET', label: '/v1/filter/category' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to filter cocktails based on their category.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/filter/category">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/filter/category \
+      -H "Authorization: Bearer {token}" \
+      -d category="Cocktail"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.cocktails.filterByCategory('Cocktail')
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.cocktails.filter_by_category(category="Cocktail")
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->cocktails->filter_by_category('Cocktail');
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## Filter cocktails by glass {{ tag: 'GET', label: '/v1/filter/glass' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to filter cocktails based on the type of glass used.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/filter/glass">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/filter/glass \
+      -H "Authorization: Bearer {token}" \
+      -d glass="Highball"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.cocktails.filterByGlass('Highball')
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.cocktails.filter_by_glass(glass="Highball")
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->cocktails->filter_by_glass('Highball');
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "cocktail_001",
+          "name": "Mojito",
+          "ingredients": ["Mint", "Lime", "Sugar", "Rum"],
+          "instructions": "Muddle mint and lime, add sugar and rum, top with soda water.",
+          "image_url": "https://example.com/images/mojito.jpg",
+          "created_at": 692233200,
+          "updated_at": 705103200
+        }
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## List categories {{ tag: 'GET', label: '/v1/list/categories' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to list all available categories for cocktails.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/list/categories">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/list/categories \
       -H "Authorization: Bearer {token}"
     ```
 
@@ -240,7 +537,7 @@ The contact model contains all the information about your contacts, such as thei
 
     const client = new ApiClient(token)
 
-    await client.contacts.get('WAz8eIbvDR60rouK')
+    await client.categories.list()
     ```
 
     ```python
@@ -248,27 +545,26 @@ The contact model contains all the information about your contacts, such as thei
 
     client = ApiClient(token)
 
-    client.contacts.get("WAz8eIbvDR60rouK")
+    client.categories.list()
     ```
 
     ```php
     $client = new \Protocol\ApiClient($token);
 
-    $client->contacts->get('WAz8eIbvDR60rouK');
+    $client->categories->list();
     ```
 
     </CodeGroup>
 
     ```json {{ title: 'Response' }}
     {
-      "id": "WAz8eIbvDR60rouK",
-      "username": "FrankMcCallister",
-      "phone_number": "1-800-759-3000",
-      "avatar_url": "https://assets.protocol.chat/avatars/frank.jpg",
-      "display_name": null,
-      "conversation_id": "xgQQXg3hrtjh7AvZ",
-      "last_active_at": 705103200,
-      "created_at": 692233200
+      "data": [
+        {
+          "id": "category_001",
+          "name": "Cocktail"
+        },
+        // ...
+      ]
     }
     ```
 
@@ -277,92 +573,20 @@ The contact model contains all the information about your contacts, such as thei
 
 ---
 
-## Update a contact {{ tag: 'PUT', label: '/v1/contacts/:id' }}
+## List glasses {{ tag: 'GET', label: '/v1/list/glasses' }}
 
 <Row>
   <Col>
 
-    This endpoint allows you to perform an update on a contact. Currently, the only attribute that can be updated on contacts is the `display_name` attribute which controls how a contact appears in your contact list in Protocol.
-
-    ### Optional attributes
-
-    <Properties>
-      <Property name="display_name" type="string">
-        The contact display name in the contact list. By default, this is just the username.
-      </Property>
-    </Properties>
+    This endpoint allows you to list all available glasses for cocktails.
 
   </Col>
   <Col sticky>
 
-    <CodeGroup title="Request" tag="PUT" label="/v1/contacts/WAz8eIbvDR60rouK">
+    <CodeGroup title="Request" tag="GET" label="/v1/list/glasses">
 
     ```bash {{ title: 'cURL' }}
-    curl -X PUT https://api.protocol.chat/v1/contacts/WAz8eIbvDR60rouK \
-      -H "Authorization: Bearer {token}" \
-      -d display_name="UncleFrank"
-    ```
-
-    ```js
-    import ApiClient from '@example/protocol-api'
-
-    const client = new ApiClient(token)
-
-    await client.contacts.update('WAz8eIbvDR60rouK', {
-        display_name: 'UncleFrank',
-    })
-    ```
-
-    ```python
-    from protocol_api import ApiClient
-
-    client = ApiClient(token)
-
-    client.contacts.update("WAz8eIbvDR60rouK", display_name="UncleFrank")
-    ```
-
-    ```php
-    $client = new \Protocol\ApiClient($token);
-
-    $client->contacts->update('WAz8eIbvDR60rouK', [
-      'display_name' => 'UncleFrank',
-    ]);
-    ```
-
-    </CodeGroup>
-
-    ```json {{ title: 'Response' }}
-    {
-      "id": "WAz8eIbvDR60rouK",
-      "username": "FrankMcCallister",
-      "phone_number": "1-800-759-3000",
-      "avatar_url": "https://assets.protocol.chat/avatars/frank.jpg",
-      "display_name": "UncleFrank",
-      "conversation_id": "xgQQXg3hrtjh7AvZ",
-      "last_active_at": 705103200,
-      "created_at": 692233200
-    }
-    ```
-
-  </Col>
-</Row>
-
----
-
-## Delete a contact {{ tag: 'DELETE', label: '/v1/contacts/:id' }}
-
-<Row>
-  <Col>
-
-    This endpoint allows you to delete contacts from your contact list in Protocol. Note: This will also delete your conversation with the given contact.
-
-  </Col>
-  <Col sticky>
-
-    <CodeGroup title="Request" tag="DELETE" label="/v1/contacts/WAz8eIbvDR60rouK">
-
-    ```bash {{ title: 'cURL' }}
-    curl -X DELETE https://api.protocol.chat/v1/contacts/WAz8eIbvDR60rouK \
+    curl -G https://api.protocol.chat/v1/list/glasses \
       -H "Authorization: Bearer {token}"
     ```
 
@@ -371,7 +595,7 @@ The contact model contains all the information about your contacts, such as thei
 
     const client = new ApiClient(token)
 
-    await client.contacts.delete('WAz8eIbvDR60rouK')
+    await client.glasses.list()
     ```
 
     ```python
@@ -379,16 +603,144 @@ The contact model contains all the information about your contacts, such as thei
 
     client = ApiClient(token)
 
-    client.contacts.delete("WAz8eIbvDR60rouK")
+    client.glasses.list()
     ```
 
     ```php
     $client = new \Protocol\ApiClient($token);
 
-    $client->contacts->delete('WAz8eIbvDR60rouK');
+    $client->glasses->list();
     ```
 
     </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "glass_001",
+          "name": "Highball"
+        },
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## List ingredients {{ tag: 'GET', label: '/v1/list/ingredients' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to list all available ingredients.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/list/ingredients">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/list/ingredients \
+      -H "Authorization: Bearer {token}"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.ingredients.list()
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.ingredients.list()
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->ingredients->list();
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "ingredient_001",
+          "name": "Mint"
+        },
+        // ...
+      ]
+    }
+    ```
+
+  </Col>
+</Row>
+
+---
+
+## List alcoholic filters {{ tag: 'GET', label: '/v1/list/alcoholic' }}
+
+<Row>
+  <Col>
+
+    This endpoint allows you to list all alcoholic filters.
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/v1/list/alcoholic">
+
+    ```bash {{ title: 'cURL' }}
+    curl -G https://api.protocol.chat/v1/list/alcoholic \
+      -H "Authorization: Bearer {token}"
+    ```
+
+    ```js
+    import ApiClient from '@example/protocol-api'
+
+    const client = new ApiClient(token)
+
+    await client.alcoholic.list()
+    ```
+
+    ```python
+    from protocol_api import ApiClient
+
+    client = ApiClient(token)
+
+    client.alcoholic.list()
+    ```
+
+    ```php
+    $client = new \Protocol\ApiClient($token);
+
+    $client->alcoholic->list();
+    ```
+
+    </CodeGroup>
+
+    ```json {{ title: 'Response' }}
+    {
+      "data": [
+        {
+          "id": "alcoholic_001",
+          "name": "Alcoholic"
+        },
+        // ...
+      ]
+    }
+    ```
 
   </Col>
 </Row>

@@ -198,7 +198,7 @@ export const navigation = [
       { title: 'Introduction', href: '/' },
       { title: 'Quickstart', href: '/quickstart' },
       { title: 'SDKs', href: '/sdks' },
-      { title: 'Authentication', href: '/authentication' },
+      { title: 'Lookup Endpoints', href: '/authentication' },
       { title: 'Pagination', href: '/pagination' },
       { title: 'Errors', href: '/errors' },
       { title: 'Webhooks', href: '/webhooks' },
@@ -207,11 +207,11 @@ export const navigation = [
   {
     title: 'Resources',
     links: [
-      { title: 'Contacts', href: '/contacts' },
-      { title: 'Conversations', href: '/conversations' },
-      { title: 'Messages', href: '/messages' },
-      { title: 'Groups', href: '/groups' },
-      { title: 'Attachments', href: '/attachments' },
+      { title: 'Cocktails', href: '/contacts' },
+      { title: 'Lookup Endpoints', href: '/conversations' },
+      { title: 'Auth Tokens', href: '/messages' },
+      // { title: 'Groups', href: '/groups' },
+      // { title: 'Attachments', href: '/attachments' },
     ],
   },
 ]
