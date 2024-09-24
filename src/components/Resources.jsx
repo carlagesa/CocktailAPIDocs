@@ -54,7 +54,7 @@ const resources = [
     },
   },
   {
-    href: 'https://cocktail-api-five.vercel.app/swagger/',
+    href: 'https://cocktailsv1.vercel.app/swagger/',
     name: 'Swagger UI',
     description:
       'Explore the Swagger UI for interactive API documentation of the Cocktail API.',
